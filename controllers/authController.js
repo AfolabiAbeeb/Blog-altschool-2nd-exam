@@ -1,11 +1,11 @@
-const User = require('../models/userModel');
-const jwt = require('jsonwebtoken');
+import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 const generateToken = (user) => {
   return jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
   try {
     const user = await User.create(req.body);
     const token = generateToken(user);
@@ -15,7 +15,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -28,3 +28,9 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+export default {
+  signup,
+  login
+};
+// This code defines the authentication controller for user signup and login.
+// It uses JWT for token generation and includes error handling for user creation and login attempts.

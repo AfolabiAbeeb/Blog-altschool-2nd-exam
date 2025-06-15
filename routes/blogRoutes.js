@@ -1,12 +1,19 @@
-const express = require('express');
+import express from 'express';
+import {
+  createBlog,
+  getPublishedBlogs,
+  getSinglePublishedBlog,
+  updateBlog,
+  deleteBlog
+} from '../controllers/blogController.js';
+import auth from '../middleware/auth.js';
+
 const router = express.Router();
-const blogController = require('../controllers/blogController');
-const auth = require('../middleware/auth');
 
-router.post('/', auth, blogController.createBlog);
-router.get('/', blogController.getPublishedBlogs);
-router.get('/:id', blogController.getSinglePublishedBlog);
-router.put('/:id', auth, blogController.updateBlog);
-router.delete('/:id', auth, blogController.deleteBlog);
+router.post('/', auth, createBlog);
+router.get('/', getPublishedBlogs);
+router.get('/:id', getSinglePublishedBlog);
+router.put('/:id', auth, updateBlog);
+router.delete('/:id', auth, deleteBlog);
 
-module.exports = router;
+export default router;

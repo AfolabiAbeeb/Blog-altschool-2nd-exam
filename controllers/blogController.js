@@ -1,7 +1,7 @@
-const Blog = require('../models/blogModel');
-const calculateReadingTime = require('../utils/calculateReadingTime');
+import Blog from '../models/blogModel.js';
+import calculateReadingTime from '../utils/calculateReadingTime.js';
 
-exports.createBlog = async (req, res) => {
+export const createBlog = async (req, res) => {
   try {
     const { title, description, tags, body } = req.body;
     const reading_time = calculateReadingTime(body);
@@ -11,7 +11,7 @@ exports.createBlog = async (req, res) => {
       tags,
       body,
       author: req.user.id,
-      reading_time
+      reading_time,
     });
     res.status(201).json(blog);
   } catch (err) {
@@ -19,7 +19,7 @@ exports.createBlog = async (req, res) => {
   }
 };
 
-exports.getPublishedBlogs = async (req, res) => {
+export const getPublishedBlogs = async (req, res) => {
   try {
     const { page = 1, limit = 20, title, author, tags, orderBy } = req.query;
     let filter = { state: "published" };
@@ -45,7 +45,7 @@ exports.getPublishedBlogs = async (req, res) => {
   }
 };
 
-exports.getSinglePublishedBlog = async (req, res) => {
+export const getSinglePublishedBlog = async (req, res) => {
   try {
     const blog = await Blog.findOne({ _id: req.params.id, state: "published" })
       .populate("author", "first_name last_name email");
@@ -61,7 +61,7 @@ exports.getSinglePublishedBlog = async (req, res) => {
   }
 };
 
-exports.updateBlog = async (req, res) => {
+export const updateBlog = async (req, res) => {
   try {
     const blog = await Blog.findOne({ _id: req.params.id, author: req.user.id });
     if (!blog) return res.status(404).json({ error: "Blog not found or unauthorized" });
@@ -76,7 +76,7 @@ exports.updateBlog = async (req, res) => {
   }
 };
 
-exports.deleteBlog = async (req, res) => {
+export const deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findOneAndDelete({ _id: req.params.id, author: req.user.id });
     if (!blog) return res.status(404).json({ error: "Blog not found or unauthorized" });
