@@ -11,6 +11,11 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/blogs", blogRoutes);
 
+// ✅ Add root route here
+app.get("/", (req, res) => {
+  res.send("Welcome to the Blog API!");
+});
+
 const PORT = process.env.PORT || 3000;
 
 mongoose
