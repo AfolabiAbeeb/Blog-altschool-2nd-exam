@@ -13,7 +13,7 @@ app.use("/api/blogs", blogRoutes);
 
 // ✅ Add root route here
 app.get("/", (req, res) => {
-  res.send("Welcome to the Blog API!");
+  res.send("Welcome to the Altschool Africa second semester assesment!");
 });
 
 const PORT = process.env.PORT || 3000;
